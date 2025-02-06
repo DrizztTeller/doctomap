@@ -6,7 +6,7 @@ nelmio_cors:
         expose_headers: ['Link']
         max_age: 3600
     paths:
-        '^/': # Toutes les routes de ton API auront seulement la méthode GET par défaut.
+        '^/': 
             allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
             allow_methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']  # Autorisation de toutes les méthodes
             allow_headers: ['Content-Type', 'Authorization']

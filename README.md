@@ -1,68 +1,114 @@
-TP 06/02 - Création d'un API
-Objectifs
-• Créer une API avec Symfony et API Platform
-• Créer une interface utilisateur avec React et React Router
-Consignes
-• Suivez le guide à l'apprentissage pour créer l'API Doctomap : https://symfony.agiliteach.fr/#/api-platform
-• Ajoutez une image de profil pour tous les médecins
-• Créez une interface utilisateur avec React et React Router pour consommer l'API Doctomap
-• Sécurisez l'API pour qu'elle ne puisse être appelée que par votre interface utilisateur
-Ressources
-• Symfony
-• API Platform
-• React
-• React Router
+# TP 06/02 - Création d'une API
 
+## Objectifs
+- Créer une API avec Symfony et API Platform
+- Créer une interface utilisateur avec React et React Router
 
-Liste Etapes : 
-- symfony new doctomap
-- composer require symfony/maker-bundle --dev
-- composer require symfony/orm-pack
-- Dans .env, commenté la ligne concernant le BDD Postgre et décommenté DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
-- symfony console d:d:c
-- symfony console make:entity Doctor
-- Entité Doctor : 
-Nom	         Type	       Détail	         Nullable
-firstname	  string	  50caractères	       Non
-lastname	  string	  50 caractères	       Non
-speciality	string	  50 caractères	       Non
-address	    string	 255 caractères	       Non
-city	      string	  50 caractères	       Non
-zip	        string	   5 caractères	       Non
-phone	      string	  12 caractères	       Oui
-image       string   255 caractères        Non
-- symfony console make:migration
-- symfony console d:m:m
-- symfony composer require api
-- Dans l'entité Doctor, rajouté l'annotation : #[ApiResource] à la class et importer cette class ApiResource
-- lancer le serveur et aller sur la route /api pour voir toutes les routes de notre api
-- composer require orm-fixtures --dev
-- composer require fakerphp/faker
-- Coder dans AppFixtures : 
-  - Rajouter les classes : 
-      - use ApiPlatform\Metadata\ApiResource;
-      - use App\Repository\DoctorRepository;
-      - use App\Entity\Doctor;
-      - use Faker\Factory;
-  - Modifier la fonction load par :  
-      - public function load(ObjectManager $manager)
-    {
-        $faker = Factory::create('fr_FR');
+## Consignes
+- Suivez le guide à l'apprentissage pour créer l'API Doctomap : [Symfony API Platform Guide](https://symfony.agiliteach.fr/#/api-platform)
+- Ajoutez une image de profil pour tous les médecins
+- Créez une interface utilisateur avec React et React Router pour consommer l'API Doctomap
+- Sécurisez l'API pour qu'elle ne puisse être appelée que par votre interface utilisateur
 
-        for ($i = 0; $i < 30; $i++) {
-            $doctor = new Doctor();
-            $doctor->setFirstname($faker->firstName());
-            $doctor->setLastname($faker->lastName());
-            $doctor->setSpeciality($faker->jobTitle());
-            $doctor->setAddress($faker->streetAddress());
-            $doctor->setCity($faker->city());
-            $doctor->setZip($faker->postcode());
-            $doctor->setPhone($faker->phoneNumber());
-            $doctor->setImage('https://avatar.iran.liara.run/public/' . $i);
+## Ressources
+- Symfony
+- API Platform
+- React
+- React Router
 
-            $manager->persist($doctor);
-        }
+---
 
-        $manager->flush();
-    }
-- symfony console d:f:l
+## Liste des étapes
+
+### 1. Installation et configuration de Symfony
+```sh
+symfony new doctomap
+composer require symfony/maker-bundle --dev
+composer require symfony/orm-pack
+```
+- Dans `.env`, commenter la ligne concernant la BDD PostgreSQL et décommenter :
+  ```
+  DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
+  ```
+```sh
+symfony console d:d:c
+```
+
+### 2. Création de l'entité `Doctor`
+```sh
+symfony console make:entity Doctor
+```
+| Nom        | Type    | Détail            | Nullable |
+|------------|--------|------------------|----------|
+| firstname  | string | 50 caractères    | Non      |
+| lastname   | string | 50 caractères    | Non      |
+| speciality | string | 50 caractères    | Non      |
+| address    | string | 255 caractères   | Non      |
+| city       | string | 50 caractères    | Non      |
+| zip        | string | 5 caractères     | Non      |
+| phone      | string | 12 caractères    | Oui      |
+| image      | string | 255 caractères   | Non      |
+
+```sh
+symfony console make:migration
+symfony console d:m:m
+```
+
+### 3. Installation et configuration de l'API
+```sh
+composer require api
+```
+- Dans l'entité `Doctor`, ajouter l'annotation :
+  ```php
+  #[ApiResource]
+  ```
+- Importer la classe `ApiResource`.
+
+- Lancer le serveur et vérifier les routes API :
+```sh
+symfony serve
+```
+Accéder à `/api` pour voir les routes disponibles.
+
+### 4. Ajout de fixtures
+```sh
+composer require orm-fixtures --dev
+composer require fakerphp/faker
+```
+- Modifier `AppFixtures.php` :
+  ```php
+    use Doctrine\Bundle\FixturesBundle\Fixture;
+    use Doctrine\Persistence\ObjectManager;
+    use ApiPlatform\Metadata\ApiResource;
+    use App\Repository\DoctorRepository;
+    use App\Entity\Doctor;
+    use Faker\Factory;
+
+  public function load(ObjectManager $manager)
+  {
+      $faker = Factory::create('fr_FR');
+
+      for ($i = 0; $i < 30; $i++) {
+          $doctor = new Doctor();
+          $doctor->setFirstname($faker->firstName());
+          $doctor->setLastname($faker->lastName());
+          $doctor->setSpeciality($faker->jobTitle());
+          $doctor->setAddress($faker->streetAddress());
+          $doctor->setCity($faker->city());
+          $doctor->setZip($faker->postcode());
+          $doctor->setPhone($faker->phoneNumber());
+          $doctor->setImage('https://avatar.iran.liara.run/public/' . $i);
+
+          $manager->persist($doctor);
+      }
+
+      $manager->flush();
+  }
+  ```
+```sh
+symfony console d:f:l -n
+```
+- Relancer le serveur :
+```sh
+symfony serve
+```

@@ -116,3 +116,22 @@ symfony serve
 ```sh
 composer require nelmio/cors-bundle
 ```
+- Modifier `.env` :
+```CORS_ALLOW_ORIGIN='http://localhost:5173'
+```
+- Modifier `nelmio_cors.yaml` :
+```nelmio_cors:
+    defaults:
+        origin_regex: true
+        allow_methods: ['GET'] # Par défaut, toutes les routes auront uniquement la méthode GET.
+        allow_headers: ['Content-Type', 'Authorization']
+        expose_headers: ['Link']
+        max_age: 3600
+    paths:
+        '^/': 
+            allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+            allow_methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']  # Autorisation de toutes les méthodes
+            allow_headers: ['Content-Type', 'Authorization']
+            expose_headers: ['Link']
+            max_age: 3600
+```

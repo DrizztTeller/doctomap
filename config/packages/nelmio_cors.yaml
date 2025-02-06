@@ -1,10 +1,14 @@
 nelmio_cors:
     defaults:
         origin_regex: true
-        allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
-        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
+        allow_methods: ['GET'] # Par défaut, toutes les routes auront uniquement la méthode GET.
         allow_headers: ['Content-Type', 'Authorization']
         expose_headers: ['Link']
         max_age: 3600
     paths:
-        '^/': null
+        '^/': # Toutes les routes de ton API auront seulement la méthode GET par défaut.
+            allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+            allow_methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']  # Autorisation de toutes les méthodes
+            allow_headers: ['Content-Type', 'Authorization']
+            expose_headers: ['Link']
+            max_age: 3600

@@ -33,6 +33,7 @@ phone	      string	  12 caractères	       Oui
 - symfony console make:migration
 - symfony console d:m:m
 - symfony composer require api
+- Dans l'entité Doctor, rajouté l'annotation : #[ApiResource] à la class et importer cette class ApiResource
 - composer require orm-fixtures --dev
 - composer require fakerphp/faker
 - symfony console d:f:l

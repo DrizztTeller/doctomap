@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\DoctorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DoctorRepository;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: DoctorRepository::class)]
+#[ApiResource] //Ajout annotation 
 class Doctor
 {
     #[ORM\Id]

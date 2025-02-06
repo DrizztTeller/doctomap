@@ -34,6 +34,7 @@ phone	      string	  12 caractères	       Oui
 - symfony console d:m:m
 - symfony composer require api
 - Dans l'entité Doctor, rajouté l'annotation : #[ApiResource] à la class et importer cette class ApiResource
+- lancer le serveur et aller sur la route /api pour voir toutes les routes de notre api
 - composer require orm-fixtures --dev
 - composer require fakerphp/faker
 - symfony console d:f:l

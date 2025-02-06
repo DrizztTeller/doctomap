@@ -16,9 +16,9 @@ Ressources
 
 Liste Etapes : 
 - symfony new doctomap
-- Créer un fichier .env.local dans lequel on ajoute : DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
 - composer require symfony/maker-bundle --dev
 - composer require symfony/orm-pack
+- Dans .env, commenté la ligne concernant le BDD Postgre et décommenté DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
 - symfony console d:d:c
 - symfony console make:entity Doctor
 - Entité Doctor : 

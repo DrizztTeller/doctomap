@@ -30,6 +30,7 @@ address	    string	 255 caractères	       Non
 city	      string	  50 caractères	       Non
 zip	        string	   5 caractères	       Non
 phone	      string	  12 caractères	       Oui
+image       string   255 caractères        Non
 - symfony console make:migration
 - symfony console d:m:m
 - symfony composer require api
@@ -37,4 +38,31 @@ phone	      string	  12 caractères	       Oui
 - lancer le serveur et aller sur la route /api pour voir toutes les routes de notre api
 - composer require orm-fixtures --dev
 - composer require fakerphp/faker
+- Coder dans AppFixtures : 
+  - Rajouter les classes : 
+      - use ApiPlatform\Metadata\ApiResource;
+      - use App\Repository\DoctorRepository;
+      - use App\Entity\Doctor;
+      - use Faker\Factory;
+  - Modifier la fonction load par :  
+      - public function load(ObjectManager $manager)
+    {
+        $faker = Factory::create('fr_FR');
+
+        for ($i = 0; $i < 30; $i++) {
+            $doctor = new Doctor();
+            $doctor->setFirstname($faker->firstName());
+            $doctor->setLastname($faker->lastName());
+            $doctor->setSpeciality($faker->jobTitle());
+            $doctor->setAddress($faker->streetAddress());
+            $doctor->setCity($faker->city());
+            $doctor->setZip($faker->postcode());
+            $doctor->setPhone($faker->phoneNumber());
+            $doctor->setImage('https://avatar.iran.liara.run/public/' . $i);
+
+            $manager->persist($doctor);
+        }
+
+        $manager->flush();
+    }
 - symfony console d:f:l

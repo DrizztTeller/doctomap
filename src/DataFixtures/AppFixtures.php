@@ -24,6 +24,7 @@ class AppFixtures extends Fixture
             $doctor->setCity($faker->city());
             $doctor->setZip($faker->postcode());
             $doctor->setPhone($faker->phoneNumber());
+            $doctor->setImage('https://avatar.iran.liara.run/public/' . $i);
 
             $manager->persist($doctor);
         }

@@ -112,3 +112,7 @@ symfony console d:f:l -n
 ```sh
 symfony serve
 ```
+- Lancer la commande pour sécuriser l'api avec cors :
+```sh
+composer require nelmio/cors-bundle
+```

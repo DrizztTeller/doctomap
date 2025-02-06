@@ -117,7 +117,8 @@ symfony serve
 composer require nelmio/cors-bundle
 ```
 - Modifier `.env` :
-```CORS_ALLOW_ORIGIN='http://localhost:5173'
+```php
+CORS_ALLOW_ORIGIN='http://localhost:5173'
 ```
 - Modifier `nelmio_cors.yaml` :
 ```nelmio_cors:
